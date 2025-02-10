@@ -1,4 +1,5 @@
 package ru.practikum.yandex.model;
+
 import io.qameta.allure.internal.shadowed.jackson.annotation.JsonIgnoreProperties;
 import io.qameta.allure.internal.shadowed.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
@@ -12,6 +13,6 @@ public class CourierDataLombok {
     private String login;
     private String password;
     private String firstName;
-    }
+}
 
 

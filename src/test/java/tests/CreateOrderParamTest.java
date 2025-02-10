@@ -1,5 +1,6 @@
 package tests;
 
+import io.qameta.allure.Feature;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import org.apache.http.HttpStatus;
@@ -16,6 +17,7 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 
+@Feature("Create order")
 @RunWith(Parameterized.class)
 public class CreateOrderParamTest {
 
@@ -50,20 +52,11 @@ public class CreateOrderParamTest {
                 colors
         );
 
-        // вызываем метод
         ValidatableResponse response = new OrderApi().createOrderLombok(order);
 
-        // проверка
         response.log().all()
                 .assertThat()
                 .statusCode(HttpStatus.SC_CREATED)
                 .body("track", is(notNullValue()));
     }
 }
-
-//Создание заказа
-//Проверь, что когда создаёшь заказ:
-//+можно указать один из цветов — BLACK или GREY;
-//+можно указать оба цвета;
-//+можно совсем не указывать цвет;
-//+тело ответа содержит track.

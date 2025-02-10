@@ -7,14 +7,22 @@ import ru.practikum.yandex.model.LoginDataLombok;
 
 import static io.restassured.RestAssured.given;
 
-public class CourierApi extends RestApi{
-
-    public static final String CREATE_COURIER_URI = "/api/v1/courier";// ручка для создания курьера
-    public static final String LOGIN_COURIER_URI = "/api/v1/courier/login"; // ручка для авторизации курьера
-    public static final String DELETE_COURIER_URI = "/api/v1/courier/:id"; // ручка для удаления курьера
+public class CourierApi extends RestApi {
+    /**
+     * URI для создания курьера
+     */
+    public static final String CREATE_COURIER_URI = "/api/v1/courier";
+    /**
+     * URI для авторизации курьера
+     */
+    public static final String LOGIN_COURIER_URI = "/api/v1/courier/login";
+    /**
+     * URI для удаления курьера
+     */
+    public static final String DELETE_COURIER_URI = "/api/v1/courier/:id";
 
     @Step("Create courier")
-    public ValidatableResponse createCourierLombok(CourierDataLombok courier){
+    public ValidatableResponse createCourierLombok(CourierDataLombok courier) {
         return given()
                 .spec(requestSpecification())
                 .and()
@@ -29,12 +37,12 @@ public class CourierApi extends RestApi{
         return given()
                 .spec(requestSpecification())
                 .when()
-                .delete(DELETE_COURIER_URI, courierId) // Используем идентификатор курьера
+                .delete(DELETE_COURIER_URI, courierId)
                 .then();
     }
 
     @Step("Authorized courier")
-    public ValidatableResponse loginCourier(LoginDataLombok courier){
+    public ValidatableResponse loginCourier(LoginDataLombok courier) {
         return given()
                 .spec(requestSpecification())
                 .and()

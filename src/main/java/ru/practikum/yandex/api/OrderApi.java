@@ -8,10 +8,18 @@ import static io.restassured.RestAssured.given;
 
 
 public class OrderApi extends RestApi {
-
-    public static final String CREATE_ORDER_URI = "/api/v1/orders";// ручка для создания заказа
-    public static final String CANCEL_ORDER_URI = "/api/v1/orders/cancel";// ручка для отмены заказа
-    public static final String GET_LIST_ORDER_URI = "/api/v1/orders";// ручка для получения списка заказа
+    /**
+     * URI для создания заказа
+     */
+    public static final String CREATE_ORDER_URI = "/api/v1/orders";
+    /**
+     * URI для отмены заказа
+     */
+    public static final String CANCEL_ORDER_URI = "/api/v1/orders/cancel";
+    /**
+     * URI для получения списка заказа
+     */
+    public static final String GET_LIST_ORDER_URI = "/api/v1/orders";
 
     @Step("Create order")
     public ValidatableResponse createOrderLombok(OrderDataLombok order) {
@@ -29,7 +37,7 @@ public class OrderApi extends RestApi {
         return given()
                 .spec(requestSpecification())
                 .and()
-                .body(orderTrack)// Используем идентификатор заказа
+                .body(orderTrack)
                 .when()
                 .put(CANCEL_ORDER_URI, orderTrack)
                 .then();

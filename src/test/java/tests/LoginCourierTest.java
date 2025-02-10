@@ -1,6 +1,7 @@
 package tests;
 
 import io.qameta.allure.Description;
+import io.qameta.allure.Feature;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import org.apache.http.HttpStatus;
@@ -14,19 +15,20 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static ru.practikum.yandex.model.CourierGenerator.getRandomCourier;
 
+@Feature("Login сourier")
 public class LoginCourierTest {
 
-        protected String courierId;
-        protected LoginDataLombok LoginDataLombok;
+    protected String courierId;
+    protected LoginDataLombok LoginDataLombok;
 
-        @After
-        public void cleanUp() {
-            if (courierId != null) {
-                CourierApi courierApi = new CourierApi();
-                // Удаляем курьера по его ID
-                courierApi.deleteCourier(courierId);
-            }
+    @After
+    public void cleanUp() {
+        if (courierId != null) {
+            CourierApi courierApi = new CourierApi();
+            // Удаляем курьера по его ID
+            courierApi.deleteCourier(courierId);
         }
+    }
 
     @DisplayName("Check courier can be authorized")
     @Test
@@ -44,6 +46,7 @@ public class LoginCourierTest {
 
         // Попытка авторизации с использованием логина и пароля из созданного курьера
         LoginDataLombok loginDataLombok = new LoginDataLombok(courierDataLombok.getLogin(), courierDataLombok.getPassword());
+
         ValidatableResponse response = courierApi.loginCourier(loginDataLombok);
 
         response.log().all()
@@ -60,10 +63,9 @@ public class LoginCourierTest {
         LoginDataLombok loginDataLombok = new LoginDataLombok(null, "password54321");
 
         CourierApi courierApi = new CourierApi();
-        //вызываем метод
+
         ValidatableResponse response = courierApi.loginCourier(loginDataLombok);
 
-        // Проверка
         response.log().all()
                 .assertThat()
                 .statusCode(HttpStatus.SC_BAD_REQUEST)
@@ -80,10 +82,9 @@ public class LoginCourierTest {
 
 
         CourierApi courierApi = new CourierApi();
-        //вызываем метод
+
         ValidatableResponse response = courierApi.loginCourier(loginDataLombok);
 
-        // Проверка
         response.log().all()
                 .assertThat()
                 .statusCode(HttpStatus.SC_BAD_REQUEST)
@@ -94,13 +95,12 @@ public class LoginCourierTest {
     @DisplayName("Check cannot Authorized courier with incorrect Login")
     public void cannotAuthorizedCourierWithIncorrectLoginTest() {
 
-        LoginDataLombok loginDataLombok = new LoginDataLombok("Vlad55554321","password54321");
+        LoginDataLombok loginDataLombok = new LoginDataLombok("Vlad55554321", "password54321");
 
         CourierApi courierApi = new CourierApi();
-        //вызываем метод
+
         ValidatableResponse response = courierApi.loginCourier(loginDataLombok);
 
-        // Проверка
         response.log().all()
                 .assertThat()
                 .statusCode(HttpStatus.SC_NOT_FOUND)
@@ -111,26 +111,15 @@ public class LoginCourierTest {
     @DisplayName("Check cannot Authorized courier with incorrect Password")
     public void cannotAuthorizedCourierWithIncorrectPasswordTest() {
 
-        LoginDataLombok loginDataLombok = new LoginDataLombok("Vlad54321","password55554321");
+        LoginDataLombok loginDataLombok = new LoginDataLombok("Vlad54321", "password55554321");
 
         CourierApi courierApi = new CourierApi();
-        //вызываем метод
+
         ValidatableResponse response = courierApi.loginCourier(loginDataLombok);
 
-        // Проверка
         response.log().all()
                 .assertThat()
                 .statusCode(HttpStatus.SC_NOT_FOUND)
                 .body("message", is("Учетная запись не найдена"));
     }
-    }
-
-
-//Логин курьера
-//Проверь:
-//+курьер может авторизоваться;
-//+для авторизации нужно передать все обязательные поля;
-//+система вернёт ошибку, если неправильно указать логин или пароль;
-//+если какого-то поля нет, запрос возвращает ошибку;
-//+если авторизоваться под несуществующим пользователем, запрос возвращает ошибку;
-//+успешный запрос возвращает id.
+}
